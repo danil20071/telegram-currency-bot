@@ -18,7 +18,7 @@ Telegram bot for currency exchange rates with RUB/CNY focus.
 ## Commands
 - `/start` - Welcome message
 - `/rates` - Current rates
-- `/convert [amount] [from] [to] - Convert currency
+- `/convert [amount] [from] [to]` - Convert currency
 - `/subscribe` - Subscribe to notifications
 - `/target [currency] [rate]` - Set target rate
 - `/exchange` - Exchange offer
