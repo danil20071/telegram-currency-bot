@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  check-rates:
+  run-bot:
     runs-on: ubuntu-latest
     
     steps:
@@ -23,9 +23,19 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
       
-      - name: Check rates and send notifications
+      - name: Restore database cache
+        uses: actions/cache@v4
+        with:
+          path: telegram-currency-bot/bot.db
+          key: bot-database-${{ github.run_id }}
+          restore-keys: |
+            bot-database-
+      
+      - name: Run bot
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           EXCHANGE_RATE_API_KEY: ${{ secrets.EXCHANGE_RATE_API_KEY }}
           USER_CHAT_ID: ${{ secrets.USER_CHAT_ID }}
-        run: python scripts/check_rates.py
+        run: |
+          cd telegram-currency-bot
+          timeout 3300 python main.py || true
